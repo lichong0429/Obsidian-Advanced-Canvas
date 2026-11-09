@@ -20,9 +20,9 @@ export function styleAttributeValidator(json: Record<string, unknown>): StyleAtt
   const hasLabel = json.label !== undefined
   const hasOptions = Array.isArray(json.options)
 
-  if (!hasKey) console.error('Style attribute is missing the "key" property')
-  if (!hasLabel) console.error('Style attribute is missing the "label" property')
-  if (!hasOptions) console.error('Style attribute is missing the "options" property or it is not an array')
+  if (!hasKey) console.error('样式属性缺少 “key” 字段')
+  if (!hasLabel) console.error('样式属性缺少 “label” 字段')
+  if (!hasOptions) console.error('样式属性缺少 “options” 字段，或该字段不是数组')
 
   json.key = TextHelper.toCamelCase(json.key as string)
 
@@ -40,7 +40,7 @@ export function styleAttributeValidator(json: Record<string, unknown>): StyleAtt
     if (!hasIcon || !hasLabel || !hasValue) optionsValid = false
     if (option.value === null) hasDefault = true
   }
-  if (!hasDefault) console.error('Style attribute is missing a default option (option with a "value" of null)')
+  if (!hasDefault) console.error('样式属性缺少默认选项（value 为 null 的选项）')
 
   const isValid = hasKey && hasLabel && hasOptions && optionsValid && hasDefault
   return isValid ? json as unknown as StyleAttribute : null
@@ -50,22 +50,22 @@ export const BUILTIN_NODE_STYLE_ATTRIBUTES: StyleAttribute[] = [
   {
     key: 'textAlign',
     icon: 'align-left',
-    label: 'Text Alignment',
+    label: '文本对齐',
     nodeTypes: ['text'],
     options: [
       {
         icon: 'align-left',
-        label: 'Left',
+        label: '左',
         value: null
       },
       {
         icon: 'align-center',
-        label: 'Center',
+        label: '中',
         value: 'center'
       },
       {
         icon: 'align-right',
-        label: 'Right',
+        label: '右',
         value: 'right'
       }
     ]
@@ -73,47 +73,47 @@ export const BUILTIN_NODE_STYLE_ATTRIBUTES: StyleAttribute[] = [
   {
     key: 'shape',
     icon: 'shapes',
-    label: 'Shape',
+    label: '形状',
     nodeTypes: ['text'],
     options: [
       {
         icon: 'rectangle-horizontal',
-        label: 'Round Rectangle',
+        label: '圆角矩形',
         value: null
       },
       {
         icon: 'shape-pill',
-        label: 'Pill',
+        label: '胶囊形',
         value: 'pill'
       },
       {
         icon: 'diamond',
-        label: 'Diamond',
+        label: '菱形',
         value: 'diamond'
       },
       {
         icon: 'shape-parallelogram',
-        label: 'Parallelogram',
+        label: '平行四边形',
         value: 'parallelogram'
       },
       {
         icon: 'circle',
-        label: 'Circle',
+        label: '圆形',
         value: 'circle'
       },
       {
         icon: 'shape-predefined-process',
-        label: 'Predefined Process',
+        label: '预定义流程',
         value: 'predefined-process'
       },
       {
         icon: 'shape-document',
-        label: 'Document',
+        label: '文档',
         value: 'document'
       },
       {
         icon: 'shape-database',
-        label: 'Database',
+        label: '数据库',
         value: 'database'
       }
     ]
@@ -121,26 +121,26 @@ export const BUILTIN_NODE_STYLE_ATTRIBUTES: StyleAttribute[] = [
   {
     key: 'border',
     icon: 'square-dashed-bottom',
-    label: 'Border',
+    label: '边框',
     options: [
       {
         icon: 'border-solid',
-        label: 'Solid',
+        label: '实线',
         value: null
       },
       {
         icon: 'border-dashed',
-        label: 'Dashed',
+        label: '虚线',
         value: 'dashed'
       },
       {
         icon: 'border-dotted',
-        label: 'Dotted',
+        label: '点线',
         value: 'dotted'
       },
       {
         icon: 'eye-off',
-        label: 'Invisible',
+        label: '不可见',
         value: 'invisible'
       }
     ]
@@ -151,26 +151,26 @@ export const BUILTIN_EDGE_STYLE_ATTRIBUTES: StyleAttribute[] = [
   {
     key: 'path',
     icon: 'path-solid',
-    label: 'Path Style',
+    label: '路径样式',
     options: [
       {
         icon: 'path-solid',
-        label: 'Solid',
+        label: '实线',
         value: null
       },
       {
         icon: 'path-dotted',
-        label: 'Dotted',
+        label: '点线',
         value: 'dotted'
       },
       {
         icon: 'path-short-dashed',
-        label: 'Short Dashed',
+        label: '短虚线',
         value: 'short-dashed'
       },
       {
         icon: 'path-long-dashed',
-        label: 'Long Dashed',
+        label: '长虚线',
         value: 'long-dashed'
       }
     ]
@@ -178,51 +178,51 @@ export const BUILTIN_EDGE_STYLE_ATTRIBUTES: StyleAttribute[] = [
   {
     key: 'arrow',
     icon: 'play',
-    label: 'Arrow Style',
+    label: '箭头样式',
     options: [
       {
         icon: 'arrow-triangle',
-        label: 'Triangle',
+        label: '三角形',
         value: null
       },
       {
         icon: 'arrow-triangle-outline',
-        label: 'Triangle Outline',
+        label: '三角轮廓',
         value: 'triangle-outline'
       },
       {
         icon: 'arrow-thin-triangle',
-        label: 'Thin Triangle',
+        label: '细三角',
         value: 'thin-triangle'
       },
       {
         icon: 'arrow-halved-triangle',
-        label: 'Halved Triangle',
+        label: '半三角',
         value: 'halved-triangle'
       },
       {
         icon: 'arrow-diamond',
-        label: 'Diamond',
+        label: '菱形',
         value: 'diamond'
       },
       {
         icon: 'arrow-diamond-outline',
-        label: 'Diamond Outline',
+        label: '菱形轮廓',
         value: 'diamond-outline'
       },
       {
         icon: 'arrow-circle',
-        label: 'Circle',
+        label: '圆形',
         value: 'circle'
       },
       {
         icon: 'arrow-circle-outline',
-        label: 'Circle Outline',
+        label: '圆形轮廓',
         value: 'circle-outline'
       },
       {
         icon: 'tally-1',
-        label: 'Blunt',
+        label: '平头',
         value: 'blunt'
       }
     ]
@@ -230,21 +230,21 @@ export const BUILTIN_EDGE_STYLE_ATTRIBUTES: StyleAttribute[] = [
   {
     key: 'pathfindingMethod',
     icon: 'pathfinding-method-square',
-    label: 'Pathfinding Method',
+    label: '寻路方式',
     options: [
       {
         icon: 'pathfinding-method-bezier',
-        label: 'Bezier',
+        label: '贝塞尔',
         value: null
       },
       {
         icon: 'slash',
-        label: 'Direct',
+        label: '直线',
         value: 'direct'
       },
       {
         icon: 'pathfinding-method-square',
-        label: 'Square',
+        label: '方形',
         value: 'square'
       },
       {

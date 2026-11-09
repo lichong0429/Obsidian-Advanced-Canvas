@@ -1,3 +1,15 @@
+> [!NOTE]
+> **简体中文界面分支（非官方汉化）**
+>
+> 本仓库是 [Advanced Canvas](https://github.com/Developer-Mike/obsidian-advanced-canvas) **v7.1.2** 的简体中文汉化分支，只改动界面文案，不涉及任何功能逻辑。
+>
+> - 汉化范围：`src/**/*.ts` 与样式文件中的 UI 字符串约 **370 条**，另为方向类命令注入 `DIRECTION_LABELS` 标签表
+> - 安装：`npm install && npm run build`，将 `main.js`、`manifest.json`、`styles.css` 放入 `<vault>/.obsidian/plugins/advanced-canvas/`
+> - 汉化方法与已知边界见 [HANHUA.md](HANHUA.md)
+> - 上游版权归 Developer-Mike 所有，本分支同样遵循 GPL-3.0
+
+---
+
 <h3 align="center">
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/logo-dark.png">

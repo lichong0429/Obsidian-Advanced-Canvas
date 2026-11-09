@@ -44,7 +44,7 @@ export default class PropertiesPatcher extends Patcher {
               if (content?.metadata) content.metadata.frontmatter = frontmatter
 
               return JSON.stringify(content, null, 2)
-            }).catch(() => console.error("Failed to update metadata object in canvas file."))
+            }).catch(() => console.error("无法更新白板文件中的元数据对象。"))
 
             return
           }

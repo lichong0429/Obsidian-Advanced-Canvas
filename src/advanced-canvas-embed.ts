@@ -42,7 +42,7 @@ export default class AdvancedCanvasEmbed extends Component {
     // Show node not found error
     if (!canvasNode) {
       this.context.containerEl.classList.add("mod-empty")
-      this.context.containerEl.textContent = "Node not found"
+      this.context.containerEl.textContent = "未找到节点"
 
       return
     }
@@ -50,8 +50,8 @@ export default class AdvancedCanvasEmbed extends Component {
     // Handle different node types
     let nodeContent = ""
     if (canvasNode.type === "text") nodeContent = (canvasNode as CanvasTextNodeData).text
-    else if (canvasNode.type === "group") nodeContent = `**Group Node:** ${(canvasNode as CanvasGroupNodeData).label}`
-    else if (canvasNode.type === "file") nodeContent = `**File Node:** ${(canvasNode as CanvasFileNodeData).file}`
+    else if (canvasNode.type === "group") nodeContent = `**分组节点：** ${(canvasNode as CanvasGroupNodeData).label}`
+    else if (canvasNode.type === "file") nodeContent = `**文件节点：** ${(canvasNode as CanvasFileNodeData).file}`
 
     this.context.containerEl.empty() // Clear the container (for re-rendering on changes)
     this.context.containerEl.classList.add("ac-card-embed")

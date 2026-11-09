@@ -63,7 +63,7 @@ class CanvasSearchView {
 
     this.searchInput = searchInputContainer.createEl("input")
     this.searchInput.type = "text"
-    this.searchInput.placeholder = "Find..."
+    this.searchInput.placeholder = "查找…"
     this.searchInput.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
 
     const debouncedOnInput = debounce(() => this.onInput(), 200, true)
@@ -93,7 +93,7 @@ class CanvasSearchView {
 
     const closeButton = documentSearch.createEl("button")
     closeButton.className = "clickable-icon document-search-close-button"
-    closeButton.setAttribute("aria-label", "Exit search")
+    closeButton.setAttribute("aria-label", "退出搜索")
     closeButton.setAttribute("data-tooltip-position", "top")
     setIcon(closeButton, "x")
     closeButton.addEventListener("click", () => this.close())

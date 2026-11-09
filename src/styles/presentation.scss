@@ -9,7 +9,7 @@
 }
 
 .canvas-wrapper:not(.presentation-mode) .canvas-node[data-is-start-node=true]::before {
-  content: 'Start';
+  content: '起点';
 
   position: absolute;
   top: calc(-1 * var(--size-4-1) * var(--zoom-multiplier));

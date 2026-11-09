@@ -31,7 +31,7 @@ export default class NodeTemplatesCanvasExtension extends CanvasExtension {
       (menu: Menu, node: CanvasNode) => {
         menu.addItem((item) =>
           item
-            .setTitle('Save node as template')
+            .setTitle('将节点保存为模板')
             .setIcon('book-plus')
             .onClick(() => void this.saveNodeAsTemplate(node.canvas))
         )
@@ -40,7 +40,7 @@ export default class NodeTemplatesCanvasExtension extends CanvasExtension {
 
     this.plugin.addCommand({
       id: 'save-node-as-template',
-      name: 'Save node as template',
+      name: '将节点保存为模板',
       checkCallback: CanvasHelper.canvasCommand(
         this.plugin,
         (canvas: Canvas) => canvas.getSelectionData().nodes.length === 1,
@@ -70,7 +70,7 @@ export default class NodeTemplatesCanvasExtension extends CanvasExtension {
       const createCommandId = `create-template-node-${i}`
       this.plugin.addCommand({
         id: createCommandId,
-        name: `Create template node ${label}`,
+        name: `创建模板节点 ${label}`,
         checkCallback: CanvasHelper.canvasCommand(
           this.plugin,
           (_: Canvas) => true,
@@ -92,7 +92,7 @@ export default class NodeTemplatesCanvasExtension extends CanvasExtension {
       const applyCommandId = `apply-template-${i}-to-node`
       this.plugin.addCommand({
         id: applyCommandId,
-        name: `Apply template ${label} to selected node(s)`,
+        name: `将模板 ${label} 应用到所选节点`,
         checkCallback: CanvasHelper.canvasCommand(
           this.plugin,
           (canvas: Canvas) => canvas.getSelectionData().nodes.length > 0,
@@ -128,7 +128,7 @@ export default class NodeTemplatesCanvasExtension extends CanvasExtension {
           canvas,
           {
             id: `${TEMPLATE_NODE_BUTTON_ID_PREFIX}${i}`,
-            label: "Drag to add template node " + (template.label ? `"${template.label}"` : (i + 1)),
+            label: "拖动以添加模板节点" + (template.label ? `"${template.label}"` : (i + 1)),
             icon: template.icon ?? 'book-dashed'
           },
           () => ({ width: template.width, height: template.height }),
@@ -185,7 +185,7 @@ export default class NodeTemplatesCanvasExtension extends CanvasExtension {
     const menu = new Menu()
 
     menu.addItem(item => item
-      .setTitle("Remove")
+      .setTitle("移除")
       .setIcon("trash")
       .onClick(async () => {
         const buttonEl = e.target as HTMLElement
@@ -207,10 +207,10 @@ export default class NodeTemplatesCanvasExtension extends CanvasExtension {
     const selectedNodeData = canvas.getSelectionData().nodes[0]
     const icon = await new IconModal(this.plugin.app).promise
     if (!icon) {
-      new Notice("No icon selected, template creation cancelled.")
+      new Notice("未选择图标，已取消创建模板。")
       return
     }
-    const label = await new AbstractSelectionModal(this.plugin.app, "Set template label (optional)", [], true).promise
+    const label = await new AbstractSelectionModal(this.plugin.app, "设置模板标签（可选）", [], true).promise
 
     await this.plugin.settings.setSetting({
       nodeTemplates: [
@@ -241,7 +241,7 @@ class IconModal extends FuzzySuggestModal<string> {
   constructor(app: App) {
     super(app)
 
-    this.setPlaceholder("Set template icon")
+    this.setPlaceholder("设置模板图标")
   }
 
   getItems(): string[] {

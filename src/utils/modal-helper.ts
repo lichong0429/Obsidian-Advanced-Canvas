@@ -92,7 +92,7 @@ export class FileSelectModal extends SuggestModal<string> {
       .map(file => file.path)
     this.suggestNewFile = suggestNewFile
 
-    this.setPlaceholder('Type to search...')
+    this.setPlaceholder('输入以搜索……')
     this.setInstructions([{
         command: '↑↓',
         purpose: 'to navigate'

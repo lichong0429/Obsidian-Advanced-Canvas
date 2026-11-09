@@ -82,7 +82,7 @@ export default class PortalsCanvasExtension extends CanvasExtension {
           setData(newData)
         }).catch((error) => {
           console.error('Error loading portal data:', error)
-          new Notice('An error occurred while loading portal data. Please check console for details.')
+          new Notice('加载传送门数据时出错，请查看控制台了解详情。')
         })
       }
     ))
@@ -199,7 +199,7 @@ export default class PortalsCanvasExtension extends CanvasExtension {
     if (!PortalsCanvasExtension.isPortalElement(edge.id)) return
 
     cancelRef.value = true // Cancel dragging
-    new Notice('Updating edges from portals is not supported yet.')
+    new Notice('暂不支持从传送门更新连线。')
   }
 
   private onEdgeConnectionDraggingAfter(canvas: Canvas, edge: CanvasEdge, _event: PointerEvent, _newEdge: boolean, _side: 'from' | 'to', _previousEnds?: { from: CanvasEdgeEnd, to: CanvasEdgeEnd }) {
@@ -207,7 +207,7 @@ export default class PortalsCanvasExtension extends CanvasExtension {
     if (!PortalsCanvasExtension.isPortalElement(edge.from.node.id) || !PortalsCanvasExtension.isPortalElement(edge.to.node.id)) return // Do not cancel if at least one end is not from a portal
 
     canvas.removeEdge(edge)
-    new Notice('Creating edges with both ends in portals are not supported yet.')
+    new Notice('暂不支持两端都在传送门内的连线。')
   }
 
   private onPopupMenu(canvas: Canvas) {
@@ -240,7 +240,7 @@ export default class PortalsCanvasExtension extends CanvasExtension {
       canvas,
       CanvasHelper.createPopupMenuOption({
         id: 'toggle-portal',
-        label: portalNodeData.portal ? 'Close portal' : 'Open portal',
+        label: portalNodeData.portal ? '关闭传送门' : '打开传送门',
         icon: portalNodeData.portal ? 'door-open' : 'door-closed',
         callback: () => {
           this.setPortalOpen(canvas, portalNode, !portalNodeData.portal)

@@ -16,7 +16,7 @@ export default class FileManagerPatcher extends Patcher {
             fn(content.metadata.frontmatter)
 
             return JSON.stringify(content, null, 2)
-          }).catch(() => console.error("Failed to update metadata object in canvas file."))
+          }).catch(() => console.error("无法更新白板文件中的元数据对象。"))
 
           return
         }

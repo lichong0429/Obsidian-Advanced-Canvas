@@ -24,11 +24,11 @@ export default class FrontmatterControlButtonCanvasExtension extends CanvasExten
       CanvasHelper.createControlMenuButton({
         id: 'properties-button',
         icon: 'info',
-        label: 'Properties',
+        label: '属性',
         callback: () => {
           const propertiesPlugin = this.plugin.app.internalPlugins.plugins['properties']
           if (!propertiesPlugin?._loaded) {
-            new Notice(`Core plugin "Properties view" was not found or isn't enabled. Enable it and restart Obsidian.`)
+            new Notice(`Core plugin "属性视图" was not found or isn't enabled. Enable it and restart Obsidian.`)
             return
           }
 

@@ -104,7 +104,7 @@ async function updateMetadataCache(this: MetadataCache, file: TFile) {
     this.saveMetaCache(hash, metadata)
     this.trigger("changed", file, data, metadata)
   } else {
-    console.error("Canvas metadata failed to parse", file)
+    console.error("白板元数据解析失败", file)
   }
 }
 
