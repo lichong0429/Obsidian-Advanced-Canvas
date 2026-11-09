@@ -295,5 +295,6 @@
  "Style attribute is missing a default option (option with a \"value\" of null)": "样式属性缺少默认选项（value 为 null 的选项）",
  "Style attribute is missing the \"key\" property": "样式属性缺少 “key” 字段",
  "Style attribute is missing the \"label\" property": "样式属性缺少 “label” 字段",
- "Style attribute is missing the \"options\" property or it is not an array": "样式属性缺少 “options” 字段，或该字段不是数组"
+ "Style attribute is missing the \"options\" property or it is not an array": "样式属性缺少 “options” 字段，或该字段不是数组",
+ "Core plugin \"Properties view\" was not found or isn't enabled. Enable it and restart Obsidian.": "未找到「属性视图」核心插件，或该插件未启用。请启用后重启 Obsidian。"
 }

@@ -502,7 +502,7 @@ export class AdvancedCanvasPluginSettingTab extends PluginSettingTab {
             items: [
               {
                 name: '支持使用 [[wikilink]] 链接到节点',
-                desc: 'Link and embed a node using [[canvas-file#node-id]]. (Use the "复制节点 wikilink" command to get an id.)',
+                desc: '使用 [[白板文件#节点id]] 链接并嵌入节点。（可用「复制节点 wikilink」命令获取 id。）',
                 control: {
                   type: 'toggle',
                   key: 'enableSingleNodeLinks'

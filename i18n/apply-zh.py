@@ -115,11 +115,14 @@ def replace_literals(s, en, zh):
     n = 0
     for v in variants(en):
         esc = re.escape(v)
-        for pat in (re.compile(r'(["\'])' + esc + r'\1'), re.compile(r'`' + esc + r'`')):
+        for pat in (
+            re.compile(r'(?P<q>["\'])' + esc + r'(?P=q)'),
+            re.compile(r'(?P<q>`)' + esc + r'(?P=q)'),
+        ):
             found = pat.findall(s)
             if found:
                 n += len(found)
-                s = pat.sub(lambda m: m.group(1) + zh + m.group(1), s)
+                s = pat.sub(lambda m: m.group("q") + zh + m.group("q"), s)
     return s, n
 
 
@@ -128,6 +131,8 @@ def main():
         sys.exit(f"找不到源码目录：{SRC}")
 
     strings = json.load(open(STRINGS, encoding="utf-8"))
+    # 长句优先：避免「Properties view」这类短词条命中长句内部，造成中英混排
+    strings = dict(sorted(strings.items(), key=lambda kv: -len(kv[0])))
 
     long_hit = 0
     for f in FILES:
