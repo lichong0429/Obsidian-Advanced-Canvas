@@ -102,8 +102,23 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           {
+            echo '## 简体中文汉化版（非官方）'
+            echo
+            echo '基于上游 **v7.1.2** 汉化界面文案，共约 370 条，只影响显示，不改变功能逻辑、数据结构与 `.canvas` 文件格式。'
+            echo
+            echo '### 安装'
+            echo
+            echo '1. 下载下方三个附件'
+            echo '2. 放入 `<vault>/.obsidian/plugins/advanced-canvas/`'
+            echo '3. 在 Obsidian 中重载插件（`Ctrl+P` → Reload app without saving）'
+            echo
+            echo '### 说明'
+            echo
+            echo "- 汉化机制、覆盖范围与已知边界：[HANHUA.md](https://github.com/${REPO}/blob/main/HANHUA.md)"
+            echo '- 命令面板已中文化，需按中文关键字检索'
+            echo '- 上游项目：[Developer-Mike/obsidian-advanced-canvas](https://github.com/Developer-Mike/obsidian-advanced-canvas)，GPL-3.0'
+            echo
             echo '## Changes'
-            echo "- [Milestone](https://github.com/${REPO}/milestone/${MILESTONE_ID}?closed=1)"
             echo
             echo "**Full Changelog**: https://github.com/${REPO}/compare/${PREV_TAG}...${TAG}"
           } > release-body.md
@@ -112,7 +127,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG }}
-          name: ${{ env.TAG }}
+          name: Advanced Canvas ${{ env.TAG }} 简体中文版
           draft: true
           body_path: release-body.md
           files: |
