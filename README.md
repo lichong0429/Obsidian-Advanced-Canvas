@@ -1,11 +1,11 @@
 > [!NOTE]
-> **简体中文界面分支（非官方汉化）**
+> **简体中文版（非官方汉化）**
 >
-> 本仓库是 [Advanced Canvas](https://github.com/Developer-Mike/obsidian-advanced-canvas) **v7.1.2** 的简体中文汉化分支，只改动界面文案，不涉及任何功能逻辑。
+> 本仓库是 [Advanced Canvas](https://github.com/Developer-Mike/obsidian-advanced-canvas) **v7.1.2** 的简体中文分支，汉化了界面文案与本文档，不涉及任何功能逻辑改动。
 >
-> - 汉化范围：`src/**/*.ts` 与样式文件中的 UI 字符串约 **370 条**，另为方向类命令注入 `DIRECTION_LABELS` 标签表
-> - 安装：`npm install && npm run build`，将 `main.js`、`manifest.json`、`styles.css` 放入 `<vault>/.obsidian/plugins/advanced-canvas/`
-> - 汉化方法与已知边界见 [HANHUA.md](HANHUA.md)
+> - 下载：见 [Releases](https://github.com/lichong0429/Obsidian-Advanced-Canvas/releases)，取 `main.js`、`styles.css`、`manifest.json` 三个文件
+> - 汉化机制、覆盖范围与已知边界：[HANHUA.md](HANHUA.md)
+> - 英文原文文档：[README.en.md](README.en.md)
 > - 上游版权归 Developer-Mike 所有，本分支同样遵循 GPL-3.0
 
 ---
@@ -26,348 +26,351 @@
 </div>
 
 <div align="center">
-    <b>⚡ Supercharge</b> your canvas experience! Create presentations, flowcharts and more!
+    <b>⚡ 为你的白板体验加速！</b>可创建演示、流程图等！
 </div>
 
 ---
 
 > [!TIP]
-> If you want to use handwriting in Obsidian or want to annotate PDFs directly inside Obsidian, check out [Starlight PDF](https://starlight.by-mika.dev/).
+> 如果你想在 Obsidian 里手写，或直接批注 PDF，可以看看 [Starlight PDF](https://starlight.by-mika.dev/)。
 
 ---
 
-## Feature Overview
-This plugin enhances the Obsidian canvas with a wide array of features:
+## 功能概览
+本插件为 Obsidian 白板提供了一整套增强功能：
 
-*   **Core Enhancements:**
-    *   [Standardized Format](#standardized-format): Compatible with the JSON Canvas format, introducing the Advanced JSON Canvas format for enhanced features.
-    *   [Full Metadata Cache Support](#full-metadata-cache-support): Integrate canvases with Obsidian's graph view, outgoing links, and backlinks.
-    *   [Frontmatter Support](#frontmatter-support): Add custom properties to canvas files.
-    *   [Auto File Node Edges](#auto-file-node-edges): Automatically create edges between file nodes based on their frontmatter properties.
-    *   [Single Node Links & Embeds](#single-node-links--embeds): Link or embed a single node from a canvas into markdown files.
-    *   [Better Default Settings](#better-default-settings): Customize default node sizes, grid alignment, and more.
-    *   [Enhanced Readonly Mode](#better-readonly): Finer control over canvas interaction in readonly mode.
-    *   [Improved Image Export](#image-export): Export to PNG/SVG with transparency and other options.
-*   **Node Customization:**
-    *   [Node Templates](#node-templates): Save and reuse node styles as templates.
-    *   [Node Styles](#node-styles): Includes various [Flowchart Shapes](#node-shapes), [Border Styles](#border-styles), and Text Alignment.
-    *   [Auto Node Resizing](#auto-node-resizing): Nodes adapt to their content size automatically.
-    *   [Variable Breakpoints](#variable-breakpoints): Control content rendering based on zoom level.
-    *   [Alternative Text Rendering](#alternative-text-rendering): Fix rendering inconsistencies between nodes in edit mode and reading mode.
-    *   [Z-Ordering Control](#z-ordering-control): Manage node stacking order.
-    *   [Custom Colors](#custom-colors): Add your own colors to the picker.
-*   **Edge Customization:**
-    *   [Edge Styles](#edge-styles): Includes [Path Styles](#path-styles) (dotted, dashed), [Arrow Styles](#arrow-styles), and [Pathfinding Methods](#pathfinding-methods).
-    *   [Floating Edges](#floating-edges-automatic-edge-side): Edges automatically adjust their connection side.
-    *   [Flip Edge](#flip-edge): Quickly reverse edge direction.
-*   **Interaction & Workflow:**
-    *   [Canvas Commands](#canvas-commands): A suite of commands for efficient canvas manipulation.
-    *   [Native-Like File Search](#native-like-file-search): Search for text within the whole canvas using a native-like interface.
-    *   [Presentation Mode](#presentation-mode): Create and navigate slide-like presentations.
-    *   [PDF Annotation](#pdf-annotation): Annotate PDF files directly within the canvas.
-    *   [Portals](#portals): Embed other canvases within your current canvas.
-    *   [Collapsible Groups](#collapsible-groups): Organize your canvas with expandable/collapsible groups.
-    *   [Edge Highlight](#edge-highlight): Highlight edges when a connected node is selected.
-    *   [Edge Selection](#edge-selection): Select edges connected to the selected node(s).
-    *   [Focus Mode](#focus-mode): Highlight a single node by blurring others.
-    *   [Encapsulate Selection](#encapsulate-selection): Move selected nodes to a new canvas, linking back to it.
-    *   Create groups independently of the nodes.
-*   **Styling & Extensibility:**
-    *   [Custom Styles](#custom-styles): Add unique CSS-based styles to nodes and edges.
-    *   [Canvas Events](#canvas-events): Expose canvas events for use in other plugins.
+*   **核心增强：**
+    *   [标准化格式](#标准化格式)：兼容 JSON Canvas 格式，并引入 Advanced JSON Canvas 格式以支持更多特性。
+    *   [完整元数据缓存支持](#完整元数据缓存支持)：让白板接入 Obsidian 的关系图谱、出链与反向链接。
+    *   [属性支持](#属性支持)：为白板文件添加自定义属性。
+    *   [文件节点自动连线](#文件节点自动连线)：根据属性自动在文件节点之间创建连线。
+    *   [单节点链接与嵌入](#单节点链接与嵌入)：在白板之外链接或嵌入白板中的单个节点。
+    *   [更好的默认设置](#更好的默认设置)：自定义节点默认尺寸、网格对齐等。
+    *   [增强只读模式](#增强只读模式)：更细致地控制只读模式下的白板交互。
+    *   [增强图片导出](#图片导出)：导出 PNG/SVG，支持透明背景等选项。
+*   **节点自定义：**
+    *   [节点模板](#节点模板)：把节点样式保存为模板重复使用。
+    *   [节点样式](#节点样式)：包含多种[流程图形状](#节点形状)、[边框样式](#边框样式)与文本对齐方式。
+    *   [自动调整节点高度](#自动调整节点高度)：节点高度随内容自动适配。
+    *   [可变断点](#可变断点)：按缩放级别控制内容是否渲染。
+    *   [替代文本渲染](#替代文本渲染)：修复编辑模式与阅读模式渲染不一致的问题。
+    *   [层级控制](#层级控制)：管理节点的叠放顺序。
+    *   [自定义颜色](#自定义颜色)：向取色板添加自己的颜色。
+*   **连线自定义：**
+    *   [连线样式](#连线样式)：包含[路径样式](#路径样式)（点线、虚线）、[箭头样式](#箭头样式)与[寻路方式](#寻路方式)。
+    *   [浮动连线](#浮动连线)：连线自动调整连接侧。
+    *   [翻转连线](#翻转连线)：一键反转连线方向。
+*   **交互与工作流：**
+    *   [白板命令](#白板命令)：一整套用于高效操作白板的命令。
+    *   [类原生文件搜索](#类原生文件搜索)：用熟悉的界面搜索白板内的文本。
+    *   [演示模式](#演示模式)：像幻灯片一样创建与浏览演示。
+    *   [PDF 批注](#pdf-批注)：直接在白板中批注 PDF。
+    *   [传送门](#传送门)：在当前白板中嵌入其他白板。
+    *   [可折叠分组](#可折叠分组)：用可折叠分组整理白板。
+    *   [连线高亮](#连线高亮)：选中节点时高亮与之相连的连线。
+    *   [连线选择](#连线选择)：选中与节点相连的连线。
+    *   [专注模式](#专注模式)：弱化其他节点以突出单个节点。
+    *   [封装所选内容](#封装所选内容)：把所选节点移入新白板并留下链接。
+    *   独立于节点创建分组。
+*   **样式与扩展性：**
+    *   [自定义样式](#自定义样式)：用 CSS 为节点和连线添加独特样式。
+    *   [白板事件](#白板事件)：向其他插件暴露白板事件。
 
-All features can be enabled/disabled in the settings.
+所有功能都可以在设置中单独启用或关闭。
 
-## Installation
-Open the Community Plugins tab in the settings and search for "Advanced Canvas" (or click [here](https://obsidian.md/plugins?id=advanced-canvas)).
+## 安装
+打开设置中的「第三方插件」面板，搜索「Advanced Canvas」（或点[这里](https://obsidian.md/plugins?id=advanced-canvas)）。
+
+> [!NOTE]
+> 本仓库是汉化分支，未上架社区插件市场。安装汉化版请从 [Releases](https://github.com/lichong0429/Obsidian-Advanced-Canvas/releases) 下载，按下方「手动创建文件夹」步骤放入插件目录。
 
 <details>
-    <summary>Other installation methods</summary>
+    <summary>其他安装方式</summary>
 
-*   Install it using [BRAT](https://github.com/TfTHacker/obsidian42-brat)
-*   Manual folder creation
-    1.  Create a folder named `advanced-canvas` in your vault's plugins folder (`<vault>/.obsidian/plugins/`).
-    2.  Download `main.js`, `styles.css` and `manifest.json` from the latest release and put them in the `advanced-canvas` folder.
-    3.  Enable the plugin in Settings -> Community plugins -> Installed plugins
+*   使用 [BRAT](https://github.com/TfTHacker/obsidian42-brat) 安装
+*   手动创建文件夹
+    1.  在库的插件目录（`<vault>/.obsidian/plugins/`）中新建名为 `advanced-canvas` 的文件夹。
+    2.  从最新 Release 下载 `main.js`、`styles.css` 与 `manifest.json`，放入该文件夹。
+    3.  在「设置 → 第三方插件 → 已安装插件」中启用。
 </details>
 
-## Support
-Please consider supporting the plugin. There are many hours of work and effort behind it. The two easiest ways to support the plugin are either by starring ⭐ the repository or by donating any amount on [Ko-fi](https://ko-fi.com/X8X27IA08) ❤️. Thank you!
+## 支持作者
+欢迎支持这个插件 —— 背后是大量的开发时间与精力。最简单的两种方式是给仓库点个 ⭐，或在 [Ko-fi](https://ko-fi.com/X8X27IA08) 上随意打赏 ❤️。谢谢！
 
 <a href="https://ko-fi.com/X8X27IA08" target="_blank">
     <img src="https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_beige.png" alt="Support me on Ko-fi" width="200"/>
 </a>
 
-## Terminology
-- **Canvas**: The canvas view is the view in which nodes and edges are displayed.
-- **Node**: A node is a single element in a canvas that can contain text, files, or links. (Some people also call it *card* or *element* - but please always use **node**.)
-  - **Text Node**: A text node is a node that contains text.
-  - **File Node**: A file node is a node that contains a link to another file.
-  - **Group Node**: A group node is a node that contains other nodes.
-  - **Link Node**: A link node is a node that displays a website.
-- **Edge**: An edge is a connection between two nodes in a canvas. It can be used to represent relationships or connections between different elements. (Please always use **edge** instead of *arrow* to avoid confusion with the edge arrow.)
-  - **Edge Path**: The edge path is just the line that connects two nodes in a canvas.
-  - **Edge Arrow**: The edge arrow is the arrow at the end (or start) of an edge that indicates the direction of the connection.
-- **Popup Menu**: The popup menu is the horizontal menu that is visible if one or more canvas elements (nodes or edges) are selected.
-- **Context Menu**: The context menu is menu that is visible if you right-click in a canvas view.
-- **Control Menu**: The control menu is the vertical menu that is visible in the top right corner of a canvas view.
-- **Card Menu**: The card menu is the horizontal menu at the bottom of the canvas view where you can find options to create new nodes.
+## 术语说明
+- **白板（Canvas）**：显示节点与连线的视图。
+- **节点（Node）**：白板中的单个元素，可以包含文本、文件或链接。（也有人叫它*卡片*或*元素*，但请统一使用**节点**。）
+  - **文本节点**：内容为文本的节点。
+  - **文件节点**：内容为指向其他文件链接的节点。
+  - **分组节点**：包含其他节点的节点。
+  - **链接节点**：显示网页的节点。
+- **连线（Edge）**：白板中两个节点之间的连接，用于表示元素之间的关系。（请统一使用**连线**，不要用*箭头*，以免与连线末端的箭头混淆。）
+  - **连线路径**：连接两个节点的那条线。
+  - **连线箭头**：位于连线末端（或起点）、表示连接方向的箭头。
+- **弹出菜单（Popup Menu）**：选中一个或多个白板元素（节点或连线）后出现的横向菜单。
+- **右键菜单（Context Menu）**：在白板视图中右键点击后出现的菜单。
+- **控制菜单（Control Menu）**：白板视图右上角的竖向菜单。
+- **卡片菜单（Card Menu）**：白板视图底部的横向菜单，其中的选项用于创建新节点。
 
-## Standardized Format
-Compatible with the [JSON Canvas](https://github.com/obsidianmd/jsoncanvas) format, the [Advanced JSON Canvas](https://github.com/Developer-Mike/obsidian-advanced-canvas/blob/main/assets/formats/advanced-json-canvas/README.md) format takes it a step further by adding more features and flexibility. The Advanced JSON Canvas format was introduced to provide longevity, readability, interoperability, and extensibility for canvases created with Advanced Canvas.
+## 标准化格式
+本插件兼容 [JSON Canvas](https://github.com/obsidianmd/jsoncanvas) 格式，并通过 [Advanced JSON Canvas](https://github.com/Developer-Mike/obsidian-advanced-canvas/blob/main/assets/formats/advanced-json-canvas/README.md) 格式更进一步，提供了更多特性与灵活性。引入 Advanced JSON Canvas 格式的目的，是让用 Advanced Canvas 创建的白板具备长期可用性、可读性、互操作性与可扩展性。
 
-## Full Metadata Cache Support
-Advanced Canvas enables `.canvas` files to be indexed by the metadata cache. This means that there is now full compatibility with the graph view, outgoing links and backlinks. This feature brings the full power of Obsidian's linking system to the canvas file format.
+## 完整元数据缓存支持
+Advanced Canvas 让 `.canvas` 文件可以被元数据缓存索引。这意味着白板现在完整兼容关系图谱、出链与反向链接，把 Obsidian 的链接体系完整带到了白板文件格式上。
 
 <details>
-    <summary>Metadata Cache Support Example</summary>
+    <summary>元数据缓存支持示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/metadata-cache-support.png" alt="Metadata Cache Support Example"/>
 </details>
 
 <details>
-    <summary>Technical Details</summary>
+    <summary>技术细节</summary>
 
-*   The file cache of a `.canvas` file now contains a value for the `hash` key (Generated from the filepath) instead of an empty string.
-    *   Check the `app.metadataCache.fileCache[<filepath>]` object to see the changes.
-*   The metadata cache is located in the `app.metadataCache` object - the same object that is used by Obsidian for markdown files.
-    *   e.g. `app.metadataCache.getCache`/`app.metadataCache.getFileCache` now works with `.canvas` files.
-    *   The `position` object which is found inside metadata cache entries now contains a new key `nodeId` for `.canvas` files.
-    *   The metadata cache entry for a `.canvas` file now contains a new key `nodes` which is an object of type `{ [nodeId: string]: MetadataCacheEntry }` - this allows for other plugins to access the full metadata cache for single nodes. The `MetadataCacheEntry` object is the same as for markdown files (even created with the same function - 1:1 compatibility).
-*   The resolved links object now has entries for `.canvas` files.
-    *   The `app.metadataCache.resolvedLinks` object values for `.canvas` files are implemented in the exact same way as for markdown files.
+*   `.canvas` 文件的文件缓存中，`hash` 键现在有值（由文件路径生成），而不再是空字符串。
+    *   可通过 `app.metadataCache.fileCache[<filepath>]` 对象查看变化。
+*   元数据缓存位于 `app.metadataCache` 对象中 —— 与 Obsidian 处理 Markdown 文件用的是同一个对象。
+    *   例如 `app.metadataCache.getCache` / `app.metadataCache.getFileCache` 现在对 `.canvas` 文件也有效。
+    *   元数据缓存条目中的 `position` 对象，对 `.canvas` 文件新增了 `nodeId` 键。
+    *   `.canvas` 文件的元数据缓存条目新增 `nodes` 键，类型为 `{ [nodeId: string]: MetadataCacheEntry }` —— 这使其他插件可以访问单个节点的完整元数据缓存。`MetadataCacheEntry` 对象与 Markdown 文件所用的完全一致（甚至由同一函数生成，1:1 兼容）。
+*   已解析链接对象中现在包含 `.canvas` 文件的条目。
+    *   `app.metadataCache.resolvedLinks` 中针对 `.canvas` 文件的实现方式与 Markdown 文件完全相同。
 </details>
 
-### Frontmatter Support
-Additionally, Advanced Canvas introduces full frontmatter support for `.canvas` files. You can now view and edit the frontmatter directly within the canvas view:
+### 属性支持
+此外，Advanced Canvas 为 `.canvas` 文件引入了完整的属性（frontmatter）支持。现在你可以直接在白板视图中查看与编辑属性：
 
-*   **Accessing Frontmatter:** Click the "info" icon located in the top right corner of the canvas view.
-*   **Functionality:** This allows you to add custom properties (metadata) to your canvas files.
-*   **Use Cases:**
-    *   **Categorization & Tagging:** Add `tags` or custom keys for organization.
-    *   **Aliases:** Use `aliases` to create alternative names for your canvas files.
-    *   **Styling:** Use `cssclasses` to apply custom CSS styles to the entire canvas view.
-    *   **Custom Metadata:** Define any other properties relevant to your workflow.
-*   **Searchability:** Properties defined in the frontmatter of your `.canvas` files are searchable using Obsidian's global search pane, further integrating canvases into your knowledge management system.
+*   **打开属性：** 点击白板视图右上角的「info」图标。
+*   **作用：** 可以为白板文件添加自定义属性（元数据）。
+*   **典型用途：**
+    *   **分类与标签：** 添加 `tags` 或自定义键用于组织管理。
+    *   **别名：** 用 `aliases` 为白板文件创建别名。
+    *   **样式：** 用 `cssclasses` 为整个白板视图应用自定义 CSS。
+    *   **自定义元数据：** 定义任何契合你工作流的属性。
+*   **可检索：** 白板属性中定义的字段可通过 Obsidian 全局搜索面板检索，进一步把白板融入你的知识管理体系。
 
-This significantly enhances the ability to manage, organize, and customize your canvases alongside your other notes in Obsidian.
+这显著提升了在 Obsidian 中将白板与笔记一同管理、组织和定制的能力。
 
-## Auto File Node Edges
-Advanced Canvas can automatically create edges between file nodes based on their frontmatter properties. By default (if enabled), it will create edges to files linked in the `canvas-edges` frontmatter property. This allows you to create fixed relationships between file nodes in your canvas, making it easier to visualize fixed structures or connections between different files.
+## 文件节点自动连线
+Advanced Canvas 可以根据文件节点的属性自动创建它们之间的连线。默认（启用后）会依据 `canvas-edges` 属性中链接的文件创建连线。这样你就能在白板中的文件节点之间建立固定关系，便于呈现文件间的固定结构或关联。
 
-### Single Node Links & Embeds
-Advanced Canvas now allows you to link or embed the content of a *single node* from a `.canvas` file directly into your markdown files. This provides a granular way to reference specific pieces of information within your canvases. (Take a look at `Advanced Canvas: Copy wikilink to node` for getting the id of a node).
+### 单节点链接与嵌入
+Advanced Canvas 现在支持把 `.canvas` 文件中*单个节点*的内容直接链接或嵌入到 Markdown 笔记中，让你可以细粒度地引用白板中的特定信息。（可用 `Advanced Canvas: Copy wikilink to node` 命令获取节点 id。）
 
-*   **Syntax:**
-    *   **Linking:** Use the standard wikilink format with the node ID appended after a `#`:
+*   **语法：**
+    *   **链接：** 使用标准 wikilink 格式，在 `#` 后附加节点 ID：
         `[[canvas-file-name#node-id]]`
-    *   **Embedding:** Use the standard embed wikilink format, also with the node ID:
+    *   **嵌入：** 使用标准嵌入 wikilink 格式，同样附加节点 ID：
         `![[canvas-file-name#node-id]]`
-*   **Functionality:** When you link or embed a node this way, the actual content of that specific node from the canvas will be displayed or linked within your markdown file. This is incredibly useful for creating direct references to diagrams, text snippets, or any other content held within individual canvas nodes.
+*   **作用：** 以这种方式链接或嵌入时，Markdown 文件中会显示或链接该节点在白板中的实际内容。对于引用图表、文本片段或白板节点中的其他内容，这非常实用。
 
-## Better Default Settings
-*   Enforce all new nodes to be aligned to the grid
-*   Customize default text node size
-*   Customize default file node size
-*   Modify the minimum node size
-*   Disable the font scaling relative to the zoom level
+## 更好的默认设置
+*   强制所有新建节点对齐网格
+*   自定义文本节点默认尺寸
+*   自定义文件节点默认尺寸
+*   调整节点最小尺寸
+*   关闭字号随缩放级别变化
 
-## Native-Like File Search
-Quickly locate text within your canvas using a familiar search experience. Advanced Canvas integrates a native-like file search specifically for canvas content.
+## 类原生文件搜索
+用熟悉的搜索体验快速定位白板内的文本。Advanced Canvas 为白板内容集成了一个类原生的文件搜索。
 
-*   **Activation:** Use the `Search current file` command, which is commonly bound to the `Ctrl+F` (or `Cmd+F` on macOS) keyboard shortcut.
-*   **Functionality:** This opens a search interface that allows you to search for text across all nodes within the currently active canvas.
-*   **Benefits:** Easily find specific information, navigate to relevant nodes, and streamline your workflow when dealing with text-heavy canvases.
+*   **唤起方式：** 使用 `搜索当前文件` 命令，通常绑定在 `Ctrl+F`（macOS 为 `Cmd+F`）。
+*   **作用：** 打开搜索界面，在当前白板的所有节点中检索文本。
+*   **好处：** 在文本密集的白板中，快速定位信息、跳转到相关节点，提升效率。
 
 <details>
-    <summary>Search Example</summary>
+    <summary>搜索示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/sample-search.gif" alt="Search Example"/>
 </details>
 
-## Canvas Commands
+## 白板命令
 <details>
-    <summary>View available commands</summary>
+    <summary>查看可用命令</summary>
 
-*   `Advanced Canvas: Toggle readonly`
-    *   Toggle the readonly state of the canvas
-*   `Advanced Canvas: Create text node`
-    *   Create a new text node
-*   `Advanced Canvas: Create file node`
-    *   Create a new file node
-*   `Advanced Canvas: Group selected nodes`
-    *   Create a group node around the selected nodes
-*   `Advanced Canvas: Toggle collapse group`
-    *   Collapse/Expand the selected group node
-*   `Advanced Canvas: Select all edges`
-    *   Select all edges
-*   `Advanced Canvas: Zoom to selection`
-    *   Zoom to the bounding box of the selected nodes
-*   `Advanced Canvas: Zoom to fit`
-    *   Zoom to fit all nodes
-*   `Advanced Canvas: Navigate up/down/left/right`
-    *   Navigate through the canvas using the aforementioned commands
-*   `Advanced Canvas: Clone node up/down/left/right`
-    *   Clone the selected node in the direction of the arrow keys
-    *   The cloned node will have the same dimensions and color as the original node
-*   `Advanced Canvas: Expand node up/down/left/right`
-    *   Expand the selected node in the direction of the arrow keys
-*   `Advanced Canvas: Flip selection horizontally/vertically`
-    *   Flip the selected nodes and the respective edges horizontally or vertically
-*   `Advanced Canvas: Swap nodes`
-    *   Swap two selected nodes with each other (x, y and width, height will be swapped)
-*   `Advanced Canvas: Copy wikilink to node`
-    *   Copy the wikilink to the selected node to the clipboard
-*   `Advanced Canvas: Pull outgoing links to canvas`
-    *   Create file nodes for all outgoing links of the selected nodes / the whole canvas if no node is selected
-*   `Advanced Canvas: Pull backlinks to canvas`
-    *   Create file nodes for all backlinks of the selected nodes / the whole canvas if no node is selected
+*   `Advanced Canvas: 切换只读`
+    *   切换白板的只读状态
+*   `Advanced Canvas: 创建文本节点`
+    *   新建文本节点
+*   `Advanced Canvas: 创建文件节点`
+    *   新建文件节点
+*   `Advanced Canvas: 分组所选节点`
+    *   在所选节点周围创建分组节点
+*   `Advanced Canvas: 切换分组折叠`
+    *   折叠/展开所选分组节点
+*   `Advanced Canvas: 选择所有连线`
+    *   选中所有连线
+*   `Advanced Canvas: 缩放到所选内容`
+    *   缩放到所选节点的边界框
+*   `Advanced Canvas: 缩放以适应`
+    *   缩放以显示所有节点
+*   `Advanced Canvas: 向上/下/左/右导航`
+    *   用上述命令在白板中导航
+*   `Advanced Canvas: 向上/下/左/右克隆节点`
+    *   按方向键方向克隆所选节点
+    *   克隆出的节点与原节点尺寸、颜色一致
+*   `Advanced Canvas: 向上/下/左/右扩展节点`
+    *   按方向键方向扩展所选节点
+*   `Advanced Canvas: 水平/垂直翻转所选内容`
+    *   将所选节点及其连线水平或垂直翻转
+*   `Advanced Canvas: 交换节点`
+    *   互换两个所选节点（x、y 与宽、高互换）
+*   `Advanced Canvas: 复制节点 wikilink`
+    *   把所选节点的 wikilink 复制到剪贴板
+*   `Advanced Canvas: 将出链拉入白板`
+    *   为所选节点的所有出链创建文件节点；未选中节点时作用于整个白板
+*   `Advanced Canvas: 将反向链接拉入白板`
+    *   为所选节点的所有反向链接创建文件节点；未选中节点时作用于整个白板
 </details>
 
-## Node Templates
-Save and reuse node styles as templates. This allows you to quickly apply consistent styling to new nodes without having to manually adjust each style attribute every time.
+## 节点模板
+把节点样式保存为模板并重复使用，这样无需每次手动调整各样式属性，就能快速为新节点套用一致的样式。
 
-Saving a node as a template can be done using the new `Advanced Canvas: Save node as template` if you have exactly ONE node selected. After selecting the icon used for the new template, the template will be available in the card menu (horizontal menu at the bottom of the canvas view) for quick application to new nodes.
+在恰好选中**一个**节点时，可用 `Advanced Canvas: 将节点保存为模板` 命令将其保存为模板。选择模板图标后，模板会出现在卡片菜单（白板视图底部的横向菜单）中，方便快速套用到新节点。
 
-To remove a template you can right-click on the template in the card menu and select `Remove`.
+要删除模板，在卡片菜单中右键该模板并选择 `移除`。
 
-## Node Styles
-You can customize the default node styles using the settings. This includes various shapes, border styles, and text alignment options.
+## 节点样式
+可以在设置中自定义节点的默认样式，包括多种形状、边框样式与文本对齐方式。
 
-### Node Shapes
+### 节点形状
 <details>
-    <summary>Flowchart Example</summary>
+    <summary>流程图示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/sample-flowchart.png" alt="Flowchart Example"/>
 </details>
 
-#### Usage
-*   Use the updated popup menu set a node's shape.
+#### 用法
+*   使用增强后的弹出菜单设置节点形状。
 
-#### Shapes
+#### 形状
 <details>
-    <summary>Terminal Shape</summary>
+    <summary>端点形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/terminal.png" alt="Terminal Shape"/>
 </details>
 
 <details>
-    <summary>Process/Center Shape</summary>
+    <summary>处理/居中形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/process.png" alt="Process/Center Shape"/>
 </details>
 
 <details>
-    <summary>Decision Shape</summary>
+    <summary>判断形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/decision.png" alt="Decision Shape"/>
 </details>
 
 <details>
-    <summary>Input/Output Shape</summary>
+    <summary>输入/输出形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/input-output.png" alt="Input/Output Shape"/>
 </details>
 
 <details>
-    <summary>On-page Reference Shape</summary>
+    <summary>页内引用形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/reference.png" alt="On-page Reference Shape"/>
 </details>
 
 <details>
-    <summary>Predefined Process Shape</summary>
+    <summary>预定义流程形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/predefined-process.png" alt="Predefined Process Shape"/>
 </details>
 
 <details>
-    <summary>Document Shape</summary>
+    <summary>文档形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/document.png" alt="Document Shape"/>
 </details>
 
 <details>
-    <summary>Database Shape</summary>
+    <summary>数据库形状</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/flowchart-nodes/database.png" alt="Database Shape"/>
 </details>
 
-### Border Styles
-Set the style of the border to dotted, dashed or invisible.
+### 边框样式
+可将边框设为点线、虚线或不可见。
 
 <details>
-    <summary>Border Styles Example</summary>
+    <summary>边框样式示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/border-styles.png" alt="Border Styles Example"/>
 </details>
 
-*(Note: Text Alignment options (Left, Center, Right) are also available for nodes.)*
+*（注：节点也支持文本对齐选项：左、中、右。）*
 
-## Edge Styles
-You can customize the default edge styles using the settings.
+## 连线样式
+可以在设置中自定义连线的默认样式。
 
-### Path Styles
-Set the style of the edge paths to dotted, short-dashed or long-dashed.
+### 路径样式
+可将连线路径设为点线、短虚线或长虚线。
 
 <details>
-    <summary>Edge Path Styles Example</summary>
+    <summary>连线路径样式示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/edge-path-styles.png" alt="Edge Path Styles Example"/>
 </details>
 
-### Arrow Styles
-Set the style of the arrows to triangle outline, halved triangle, thin triangle, diamond, diamond outline, circle, circle outline and blunted.
+### 箭头样式
+可将箭头设为三角轮廓、半三角、细三角、菱形、菱形轮廓、圆形、圆形轮廓与平头。
 
 <details>
-    <summary>Arrow Styles Example</summary>
+    <summary>箭头样式示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/edge-arrow-styles.png" alt="Edge Arrow Styles Example"/>
 </details>
 
-### Pathfinding Methods
-Set the pathfinding method of the edges (arrows) to default, straight, squared or A*.
+### 寻路方式
+可将连线的寻路方式设为默认、直线、直角或 A*。
 
 <details>
-    <summary>Edge Pathfinding Methods Example</summary>
+    <summary>连线寻路方式示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/edge-pathfinding-methods.png" alt="Edge Pathfinding Methods Example"/>
 </details>
 
-## Custom Styles
-Custom style attributes for nodes and edges can easily be added. They get exposed in the `.canvas-node` dataset (for nodes) or `.canvas-edges path` dataset (for edges) and can be styled using CSS. Node styles also get exposed in the node editor iframe in the body dataset and the class `canvas-node-iframe-body` indicating that the body is inside a canvas node iframe.
+## 自定义样式
+可以很方便地为节点与连线添加自定义样式属性。这些属性会暴露在 `.canvas-node` 的 dataset（节点）或 `.canvas-edges path` 的 dataset（连线）上，可用 CSS 设置样式。节点样式还会暴露在节点编辑器的 iframe body dataset 上，并附带 `canvas-node-iframe-body` 类名，用于标识该 body 位于白板节点的 iframe 内。
 
-1.  Create a new CSS snippet in your vault:
-    *   Navigate to `Settings > Appearance > *scroll down* > CSS snippets` and click on the folder icon to open the snippets folder.
-    *   Create a new CSS file (e.g. `my-fancy-node-style.css`).
-2.  Add the custom style attribute definition:
-    *   Open the CSS file and add the following code. The format needs to be **YAML** (within a CSS comment) and must contain the same keys as in this example. The number of options can be adjusted (minimum of one option is required). The `icon` key should contain the ID of an icon from [lucide.dev](https://lucide.dev/icons/).
-    *   Change `@advanced-canvas-node-style` to `@advanced-canvas-edge-style` for edge styles.
+1.  在库中创建一个新的 CSS 片段：
+    *   进入 `设置 > 外观 > 向下滚动 > CSS 片段`，点击文件夹图标打开片段目录。
+    *   新建一个 CSS 文件（例如 `my-fancy-node-style.css`）。
+2.  添加自定义样式属性定义：
+    *   打开该 CSS 文件并加入以下代码。格式必须是 **YAML**（写在 CSS 注释中），且必须包含与示例相同的键。选项数量可自行调整（至少需要一个选项）。`icon` 键应填入 [lucide.dev](https://lucide.dev/icons/) 中图标的 ID。
+    *   若要做连线样式，把 `@advanced-canvas-node-style` 改为 `@advanced-canvas-edge-style`。
     ```css
     /* @advanced-canvas-node-style
     key: validation-state
-    icon: hourglass # Optional
-    label: Validation State
+    icon: hourglass # 可选
+    label: 审核状态
     options:
       -
-        label: Stateless
+        label: 未标记
         value: null
         icon: circle-help
 
       -
-        label: Approved
+        label: 已通过
         value: approved
         icon: circle-check
 
       -
-        label: Pending
+        label: 待处理
         value: pending
         icon: circle-dot
 
       -
-        label: Rejected
+        label: 已驳回
         value: rejected
         icon: circle-x
     */
     ```
 
 > [!IMPORTANT]
-> There needs to be **one** option with the value `null`.
+> 必须**有且仅有一个**选项的 `value` 为 `null`。
 
-3.  Add the CSS styling:
-    *   In the same (or another) CSS file, add the styling for your custom attribute.
+3.  添加 CSS 样式：
+    *   在同一个（或其他）CSS 文件中，为自定义属性添加样式。
     ```css
-    /* General structure */
-    .canvas-node[data-<YOUR-CUSTOM-STYLE-KEY>="<VALUE>"] {
-      /* Your custom styling */
+    /* 通用结构 */
+    .canvas-node[data-<你的自定义样式键>="<值>"] {
+      /* 你的自定义样式 */
     }
     ```
-    *   Example for `validation-state`:
+    *   `validation-state` 的示例：
     ```css
     .canvas-node[data-validation-state] .canvas-node-content::after {
       content: "";
@@ -389,199 +392,199 @@ Custom style attributes for nodes and edges can easily be added. They get expose
       content: "❌";
     }
     ```
-4.  **Enable** the CSS snippet in Obsidian's settings and enjoy your new custom style attribute!
+4.  在 Obsidian 设置中**启用**该 CSS 片段，即可使用你的自定义样式属性。
     <details>
-        <summary>Example in Popup Menu</summary>
+        <summary>弹出菜单中的效果</summary>
         <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/custom-style-attribute-example.png" alt="Custom Style Attribute Example"/>
     </details>
 
-**See an example of a complete custom node style CSS file [here](https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/example-custom-node-style.css).**
+**完整自定义节点样式 CSS 文件示例见[此处](https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/example-custom-node-style.css)。**
 
-## Variable Breakpoints
-Add breakpoints to nodes to change at which zoom factor the node's content gets unrendered.
+## 可变断点
+为节点添加断点，以指定在哪个缩放级别以下不再渲染该节点的内容。
 
 > [!IMPORTANT]
-> Due to performance reasons, custom breakpoints get cached and are only re-fetched when the canvas gets reloaded. Changes in the CSS snippet won't be applied immediately (only after reopening the canvas).
+> 出于性能考虑，自定义断点会被缓存，仅在白板重新加载时重新读取。CSS 片段的改动不会立即生效（需重新打开白板）。
 
-Create a new CSS snippet in your vault (and enable it in settings):
+在库中创建新的 CSS 片段（并在设置中启用）：
 ```css
-/* Any CSS selector can be used (As long as the .canvas-node element has the CSS variable defined) */
+/* 可使用任意 CSS 选择器（只要 .canvas-node 元素上定义了该 CSS 变量） */
 .canvas-node[data-shape="pill"] {
-    /* The zoom factor at which the node's content gets unrendered (Zoom level can range from 1 to -4) */
+    /* 内容不再渲染的缩放级别（缩放级别范围为 1 到 -4） */
     --variable-breakpoint: 0.5;
 }
 ```
 
-## Alternative text rendering
-Changes how the reading mode of text nodes get rendered to fix visual inconsistencies between the edit mode and reading mode that cause the node's [content to jump around](https://forum.obsidian.md/t/edit-mode-in-canvas-all-the-time/55681) when switching between the two modes. This feature is disabled by default and if enabled, **alters the default markdown rendering** of Obsidian (non-destructive and only applies to text nodes in the canvas view).
+## 替代文本渲染
+改变文本节点在阅读模式下的渲染方式，以修复编辑模式与阅读模式切换时节点[内容跳动](https://forum.obsidian.md/t/edit-mode-in-canvas-all-the-time/55681)的视觉差异。该功能默认关闭；启用后会**改变 Obsidian 默认的 Markdown 渲染**（非破坏性，且仅作用于白板视图中的文本节点）。
 
-Solution is based on [`stdword`'s work](https://github.com/stdword/obsidian13-canvas-smooth-cards).
+该方案基于 [`stdword` 的工作](https://github.com/stdword/obsidian13-canvas-smooth-cards)。
 
-## Z-Ordering Control
-Change z-ordering of nodes using the context menu.
+## 层级控制
+使用右键菜单调整节点的层级顺序。
 
 <details>
-    <summary>Z-Ordering Control Example</summary>
+    <summary>层级控制示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/z-ordering-control.png" alt="Z-Ordering Control Example"/>
 </details>
 
-## Custom Colors
-Add custom colors to the color picker. You can add them using the following CSS snippet:
+## 自定义颜色
+向取色板添加自定义颜色。可用以下 CSS 片段添加：
 ```css
 body {
-    /* Where X is the index of the color in the palette (1-6 are used by Obsidian) */
+    /* X 为颜色在调色板中的序号（1-6 已被 Obsidian 使用） */
     --canvas-color-X: rgb(0, 255, 0);
 }
 ```
 
 > [!IMPORTANT]
-> In Obsidian version `< 1.13` the color needs to be written as comma-separated RGB values (e.g. `--canvas-color-X: 0, 255, 0;` for green) instead of a CSS color value (e.g. `green` or `#00ff00`).
+> 在 Obsidian `< 1.13` 版本中，颜色需写成逗号分隔的 RGB 数值（如绿色写作 `--canvas-color-X: 0, 255, 0;`），而不能用 CSS 颜色值（如 `green` 或 `#00ff00`）。
 
 <details>
-    <summary>Custom Colors In Palette Example</summary>
+    <summary>调色板中的自定义颜色示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/custom-colors.png" alt="Custom Colors In Palette"/>
 </details>
 
-## Presentation Mode
-In presentation mode, you can navigate through nodes using arrow keys or PageUp/PageDown keys (compatible with most presentation remotes). Slides/nodes are connected by arrows. For multiple outgoing arrows from one node, number them to define navigation order. While in presentation mode, the canvas is in readonly mode (so [Better Readonly](#better-readonly) features apply). Exit with `ESC` or the corresponding command. Use `Advanced Canvas: Continue presentation` to resume from the last slide.
+## 演示模式
+在演示模式中，可用方向键或 PageUp/PageDown（兼容多数演示遥控器）在节点之间切换。幻灯片/节点之间用箭头连接；若一个节点有多条出向箭头，给箭头编号以定义跳转顺序。演示时白板处于只读模式（因此[增强只读模式](#增强只读模式)的功能同样生效）。按 `ESC` 或执行对应命令退出。可用 `Advanced Canvas: 继续演示` 从上次的幻灯片恢复。
 
 <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/sample-presentation-simple.gif" alt="Presentation mode example"/>
 
 <details>
-    <summary>Simple Presentation Canvas File</summary>
+    <summary>简单演示白板文件</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/sample-presentation-simple.png" alt="Presentation canvas file"/>
 </details>
 
-### More Complex Example
+### 更复杂的示例
 <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/sample-presentation-complex.gif" alt="Complex presentation mode example"/>
 
 <details>
-    <summary>Complex Presentation Canvas File</summary>
+    <summary>复杂演示白板文件</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/sample-presentation-complex.png" alt="Complex presentation canvas file"/>
 </details>
 
-### Usage
-*   **Create the first slide:**
-    *   Use the updated popup menu to mark a node as the first slide.
-    *   OR create a node and mark it via the updated card menu.
-*   **Add more slides:**
-    *   Link slides using arrows.
-    *   To loop back, number arrows for navigation order.
-    *   **TIP:** Use the updated card menu for consistent slide dimensions.
-*   **Control the presentation:**
-    *   Start: Command Palette (`Advanced Canvas: Start presentation`).
-    *   Navigate: Arrow keys.
-    *   Exit: `ESC` key.
+### 用法
+*   **创建第一张幻灯片：**
+    *   用增强后的弹出菜单把某个节点标记为第一张幻灯片。
+    *   或者新建节点后通过卡片菜单标记。
+*   **添加更多幻灯片：**
+    *   用箭头连接各幻灯片。
+    *   若要循环返回，给箭头编号以定义顺序。
+    *   **提示：** 用增强后的卡片菜单可获得一致的幻灯片尺寸。
+*   **控制演示：**
+    *   开始：命令面板（`Advanced Canvas: 开始演示`）。
+    *   切换：方向键。
+    *   退出：`ESC` 键。
 
-## PDF Annotation
-Add the `pinned=true` parameter for PDF embeds to display only the selected page, enabling reliable single-page embedding and annotation. Use the `Advanced Canvas: Insert PDF for annotation` command to create separate nodes for each PDF page (With locked aspect ratio), or the `Advanced Canvas: Pin PDF page` command to pin the current page of a PDF embed.
+## PDF 批注
+为 PDF 嵌入添加 `pinned=true` 参数，可只显示指定页面，从而实现可靠的单页嵌入与批注。使用 `Advanced Canvas: 插入用于批注的 PDF` 命令可为 PDF 每一页创建独立节点（锁定宽高比），或用 `Advanced Canvas: 固定 PDF 页面` 命令固定当前页。
 
-## Portals
-Embed other canvases inside your current canvas and create edges (arrows) to the embedded canvas.
+## 传送门
+在当前白板中嵌入其他白板，并与被嵌入的白板建立连线（箭头）。
 
 <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/sample-portal-usage.png" alt="Portal example"/>
 
-### Usage
-*   Embed a canvas file, then click the door icon in the popup menu to open it as a portal.
+### 用法
+*   嵌入一个白板文件后，点击弹出菜单中的门形图标，将其作为传送门打开。
 
-## Collapsible Groups
-Collapse and expand groups to organize your canvas.
+## 可折叠分组
+折叠与展开分组，让白板保持整洁。
 
 <details>
-    <summary>Collapsible Groups Example</summary>
+    <summary>可折叠分组示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/collapsible-groups.png" alt="Collapsible Groups Example"/>
 </details>
 
-## Image Export
-Export the whole canvas or just a selection as a PNG/SVG image with transparency. Core plugin export options like "Privacy Mode" and "Show Logo" (extended to include Advanced Canvas logo) are also available. Run the `Advanced Canvas: Export canvas as image` command to use the enhanced export options.
+## 图片导出
+可将整个白板或所选内容导出为带透明背景的 PNG/SVG 图片。核心插件的导出选项（如「隐私模式」「显示标志」，后者已扩展为包含 Advanced Canvas 标志）同样可用。执行 `Advanced Canvas: 将白板导出为图片` 命令即可使用增强的导出选项。
 
 <details>
-    <summary>Image Export Example (SVG)</summary>
+    <summary>图片导出示例（SVG）</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/image-export-example.svg" alt="Image Export Example"/>
 </details>
 
-## Auto Node Resizing
-Resize nodes automatically when their text content changes. Toggle this feature per-node using the updated popup menu.
+## 自动调整节点高度
+当文本内容变化时自动调整节点高度。可通过增强后的弹出菜单为单个节点开启或关闭。
 
 <details>
-    <summary>Auto Node Resizing Example</summary>
+    <summary>自动调整节点高度示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/auto-node-resizing.gif" alt="Auto Node Resizing Example"/>
 </details>
 
-## Edge Highlight
-Highlight edges when a connected node is selected. This feature helps to visually identify relationships between nodes.
+## 连线高亮
+选中节点时高亮与之相连的连线，便于直观识别节点间的关系。
 
-If you want to edit the look of the highlighted edges, you need to edit the `is-focused` CSS class in a custom CSS snippet.
+若要修改高亮连线的外观，需在自定义 CSS 片段中编辑 `is-focused` 类。
 
-## Focus Mode
-Focus on a single node by blurring all other nodes.
+## 专注模式
+弱化其他所有节点，以聚焦单个节点。
 
-If "[Edge Highlight](#edge-highlight)" is enabled, edges connected to the focused node won't be blurred.
+若已启用[连线高亮](#连线高亮)，与聚焦节点相连的连线不会被弱化。
 
 <details>
-    <summary>Focus Mode Example</summary>
+    <summary>专注模式示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/focus-mode.png" alt="Focus Mode Example"/>
 </details>
 
-## Better Readonly
-*   Disable node popup menus.
-*   Lock the canvas' position.
-*   Lock the canvas' zoom.
-*   Interactivity is retained for zooming to a bounding box (e.g., zoom to selection, zoom to fit all).
+## 增强只读模式
+*   禁用节点弹出菜单。
+*   锁定白板位置。
+*   锁定白板缩放。
+*   仍保留缩放到边界框的交互（如缩放到所选内容、缩放以适应）。
 
-### Usage
-*   Use the updated control menu to toggle these features (shown only if the canvas is in readonly mode).
+### 用法
+*   使用增强后的控制菜单切换这些功能（仅在白板处于只读模式时显示）。
 
-## Encapsulate Selection
-Move the current selection to a new canvas and create a link to it in the current canvas.
+## 封装所选内容
+把当前所选内容移入新白板，并在当前白板中留下指向它的链接。
 
-### Usage
-1.  Select the nodes you want to encapsulate.
-2.  Use the context menu (right-click) to encapsulate the selection.
-3.  OR use the command palette (`Advanced Canvas: Encapsulate selection`).
+### 用法
+1.  选中要封装的节点。
+2.  通过右键菜单封装所选内容。
+3.  或使用命令面板（`Advanced Canvas: 封装所选内容`）。
 
-## Floating Edges (Automatic Edge Side)
-Edges automatically change their connection side to the most suitable one.
-Drag the edge to the indicated drop zone inside the node to make the edge float.
+## 浮动连线
+连线会自动把连接侧调整到最合适的一侧。
+把连线拖到节点内指示的投放区域，即可让该连线变为浮动。
 
 <details>
-    <summary>Floating Edges Example</summary>
+    <summary>浮动连线示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/floating-edge-example.png" alt="Floating Edges Example"/>
 </details>
 
-## Flip Edge
-Flip the direction of an edge with one click.
+## 翻转连线
+一键反转连线方向。
 
 <details>
-    <summary>Flip Edge Example</summary>
+    <summary>翻转连线示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/flip-edge.gif" alt="Flip Edge Example"/>
 </details>
 
-## Edge Selection
-Select edges connected to the selected node(s).
+## 连线选择
+选中与所选节点相连的连线。
 
 <details>
-    <summary>Select Connected Edges Example</summary>
+    <summary>选择相连连线示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/select-connected-edges.gif" alt="Select Connected Edges Example"/>
 </details>
 
-### Select By Direction
-Select incoming or outgoing edges of the selected node(s).
-Note: this requires the setting `Edge Selection > Select Edge By Direction` to be enabled.
+### 按方向选择
+选中与所选节点相连的入边或出边。
+注意：需启用设置项 `连线选择 > 按方向选择连线`。
 
 <details>
-    <summary>Select Outgoing Edges Example</summary>
+    <summary>选择出边示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/select-outgoing-edges.gif" alt="Select Outgoing Edges Example"/>
 </details>
 
 <details>
-    <summary>Select Incoming Edges Example</summary>
+    <summary>选择入边示例</summary>
     <img src="https://raw.githubusercontent.com/Developer-Mike/obsidian-advanced-canvas/main/assets/docs/select-incoming-edges.gif" alt="Select Incoming Edges Example"/>
 </details>
 
-## Canvas Events
-All custom events are prefixed with `advanced-canvas:` and can be listened to using `app.workspace.on` (just like default Obsidian events).
-Check out the list of events [here](https://github.com/Developer-Mike/obsidian-advanced-canvas/blob/main/src/%40types/CustomWorkspaceEvents.d.ts).
+## 白板事件
+所有自定义事件都以 `advanced-canvas:` 为前缀，可用 `app.workspace.on` 监听（与 Obsidian 默认事件一致）。
+事件列表见[此处](https://github.com/Developer-Mike/obsidian-advanced-canvas/blob/main/src/%40types/CustomWorkspaceEvents.d.ts)。
 
-## Settings
-Every feature can be enabled/disabled in the settings. All features were made to be as customizable as possible.
+## 设置
+所有功能都可以在设置中启用或关闭，且都尽可能提供了可自定义的选项。
