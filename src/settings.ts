@@ -1,4 +1,4 @@
-import { PluginSettingTab, SettingDefinitionItem, SettingGroupItem } from "obsidian"
+import { PluginSettingTab, SettingDefinitionGroup, SettingDefinitionItem, SettingDefinitionPage, SettingGroupItem } from "obsidian"
 import { GET_EDGE_CSS_STYLES_MANAGER } from "./canvas-extensions/advanced-styles/edge-styles"
 import { GET_NODE_CSS_STYLES_MANAGER } from "./canvas-extensions/advanced-styles/node-styles"
 import { BUILTIN_EDGE_STYLE_ATTRIBUTES, BUILTIN_NODE_STYLE_ATTRIBUTES, StyleAttribute } from "./canvas-extensions/advanced-styles/style-config"
@@ -323,7 +323,39 @@ export class AdvancedCanvasPluginSettingTab extends PluginSettingTab {
   }
 
   override getSettingDefinitions(): SettingDefinitionItem[] {
-    return [
+    // 原有条目保持原样，先解构为具名变量，再按功能分类重新组装。
+    // 重排只影响外层结构，不触碰任何 setting 定义本身。
+    const [
+      kofiBanner,
+      nodeTypeOnDoubleClick,
+      alignNewNodesToGrid,
+      textNodeDimensions,
+      fileNodeDimensions,
+      nodeSizeLimits,
+      fontSizeRelativeToZoom,
+      extendedCommands,
+      metadataCompatibility,
+      nativeLikeFileSearch,
+      autoFileNodeEdges,
+      portals,
+      collapsibleGroups,
+      nodeEdgeStyles,
+      floatingEdges,
+      flipEdges,
+      presentations,
+      pdfAnnotation,
+      zOrderingControls,
+      aspectRatioControl,
+      variableBreakpoint,
+      alternativeTextRendering,
+      autoResizeNode,
+      canvasEncapsulation,
+      betterReadonly,
+      edgeHighlight,
+      edgeSelection,
+      focusMode,
+      betterExport
+    ]: SettingDefinitionItem[] = [
       // Ko-fi banner
       {
         type: 'group',
@@ -1323,6 +1355,125 @@ export class AdvancedCanvasPluginSettingTab extends PluginSettingTab {
           this.getDocumentationButton('image-export')
         ]
       },
+    ]
+
+    const page = (
+      en: string, zh: string,
+      descEn: string, descZh: string,
+      items: SettingDefinitionItem[]
+    ): SettingDefinitionPage => ({
+      type: 'page',
+      name: t({ en, zh }),
+      desc: t({ en: descEn, zh: descZh }),
+      items
+    })
+
+    const group = (en: string, zh: string, items: SettingDefinitionItem[]): SettingDefinitionGroup => ({
+      type: 'group',
+      heading: t({ en, zh }),
+      // 此处仅传入 setting / page，运行时不会出现嵌套 group
+      items: items as SettingGroupItem[]
+    })
+
+    return [
+      page(
+        'General & appearance',
+        '常规与外观',
+        'Basics applied to new nodes and edges: what a double click creates, grid alignment, and the node/edge style attributes.',
+        '新建节点与连线时的基础默认值：双击创建什么、是否对齐网格，以及节点与连线的样式属性。',
+        [
+          group('General', '通用', [
+            nodeTypeOnDoubleClick,
+            alignNewNodesToGrid,
+            fontSizeRelativeToZoom
+          ]),
+          nodeEdgeStyles
+        ]
+      ),
+
+      page(
+        'Nodes',
+        '节点',
+        'Size limits, automatic resizing, stacking order, aspect ratio and how node content is rendered.',
+        '节点的尺寸限制、自动调整高度、叠放层级、宽高比，以及内容渲染方式。',
+        [
+          group('Size', '尺寸', [
+            textNodeDimensions,
+            fileNodeDimensions,
+            nodeSizeLimits
+          ]),
+          group('Behaviour', '行为', [
+            autoResizeNode,
+            zOrderingControls,
+            aspectRatioControl,
+            variableBreakpoint,
+            alternativeTextRendering
+          ])
+        ]
+      ),
+
+      page(
+        'Edges',
+        '连线',
+        'How edges behave on canvas: floating connection sides, direction flipping, highlighting and selection.',
+        '连线在白板上的行为：浮动连接侧、方向翻转、高亮与选择。',
+        [
+          group('Edge interactions', '连线交互', [
+            floatingEdges,
+            flipEdges,
+            edgeHighlight,
+            edgeSelection
+          ])
+        ]
+      ),
+
+      page(
+        'Structure & metadata',
+        '结构与元数据',
+        'Groups, portals and canvas encapsulation; plus metadata compatibility so canvases join the graph view and backlinks.',
+        '分组、传送门与白板封装；以及让白板接入关系图谱与反向链接的元数据兼容选项。',
+        [
+          group('Structure', '结构', [
+            collapsibleGroups,
+            portals,
+            canvasEncapsulation
+          ]),
+          group('Metadata', '元数据', [
+            metadataCompatibility,
+            autoFileNodeEdges
+          ])
+        ]
+      ),
+
+      page(
+        'Presentation & export',
+        '演示与导出',
+        'Turn a canvas into a slide deck, annotate PDFs, and export images with extra options.',
+        '把白板变成幻灯片演示、批注 PDF，以及带更多选项的图片导出。',
+        [
+          presentations,
+          pdfAnnotation,
+          betterExport
+        ]
+      ),
+
+      page(
+        'Interaction & commands',
+        '交互与命令',
+        'Commands, search, readonly and focus behaviour — how you operate the canvas day to day.',
+        '命令、搜索、只读与专注模式：日常操作白板的方式。',
+        [
+          group('Commands & search', '命令与搜索', [
+            extendedCommands,
+            nativeLikeFileSearch
+          ]),
+          group('View & readonly', '视图与只读', [
+            betterReadonly,
+            focusMode
+          ]),
+          kofiBanner
+        ]
+      )
     ]
   }
 }
